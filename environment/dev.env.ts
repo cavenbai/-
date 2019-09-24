@@ -1,4 +1,4 @@
 
 export default {
-  URL_SERVER: JSON.stringify("http://101.132.141.109:8772/")
+  URL_SERVER: JSON.stringify("https://sourcework.cf")
 }
