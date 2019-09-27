@@ -7,14 +7,16 @@ export class VehicleRoughService {
   @Inject(NetService)
   private netService: NetService
   /**
-   * 获取品牌列表
-   * @param data
+   * 小程序登录获取openid接口
+   * @param code
    */
-  getAllCarBrand() {
+  getOpenid(code) {
     return this.netService.send({
-      url: '/works/21c2b4d332',
-      type: requestType.Get,
-      data: {}
+      url: '/adduser',
+      type: requestType.Post,
+      data: {
+        code
+      }
     })
   }
 }

@@ -1,6 +1,5 @@
 import { Observable } from "rxjs";
 import ServerPath  from '../../environment/dev.env'
-import { StorageService } from '@/utils/storage.service'
 const getType = ['GET', 'DELETE'] // 使用GET请求类型
 export class NetService{
   // public static generateRequestUrl({ service, controller, action, url }: { service: string, controller: string, action: string, url?: string }, append = [], sort?):string {

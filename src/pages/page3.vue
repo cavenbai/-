@@ -1,20 +1,6 @@
 <template>
   <div class="page3 worker-detail">
     <h1 style="text-align:center;padding-top:30px;">{{title}}</h1>
-    <!--<i-steps :current="verticalCurrent" direction="vertical">-->
-      <!--<i-step>-->
-        <!--<div slot="title">已完成</div>-->
-        <!--<div slot="content">这里是该步骤的描述信息</div>-->
-      <!--</i-step>-->
-      <!--<i-step>-->
-        <!--<div slot="title">进行中</div>-->
-        <!--<div slot="content">这里是该步骤的描述信息</div>-->
-      <!--</i-step>-->
-      <!--<i-step>-->
-        <!--<div slot="title">错误</div>-->
-        <!--<div slot="content">这里是该步骤的描述信息</div>-->
-      <!--</i-step>-->
-    <!--</i-steps>-->
     <div style="margin-top: 20px;">
       <div style="position:relative;display: flex;font-size: 13px;height:110px;justify-content:center" v-for="(item,index) in detail" :key="index">
         <p style="margin-top:16px;margin-right:10px;">{{item.date}}</p>

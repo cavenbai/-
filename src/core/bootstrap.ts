@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import injector from 'vue-inject';
 import createProvide from '@/core/provide'
-// import createFilters from '~/extension/filter'
-// import createDirectives from '~/extension/directive'
-// import createPlugins from '~/extension/plugins'
 
 export default async function (launch) {
   // 创建提供器
@@ -24,27 +21,5 @@ export default async function (launch) {
       injector.service(key, target).lifecycle[lifecycle]();
     })
   }
-
-  // // 安装过滤器
-  // if (createFilters) {
-  //   Object.entries(createFilters({ store })).forEach(([key, fun]) => {
-  //     Vue.filter(key, fun)
-  //   })
-  // }
-
-  // // 安装指令
-  // if (createDirectives) {
-  //   Object.entries(createDirectives({ store })).forEach(([key, fun]) => {
-  //     Vue.directive(key, fun)
-  //   })
-  // }
-
-  // // 安装插件
-  // if (createPlugins) {
-  //   Object.entries(createPlugins({ store })).forEach(([key, plugin]) => {
-  //     Vue.use(plugin)
-  //   })
-  // }
-
   launch()
 }

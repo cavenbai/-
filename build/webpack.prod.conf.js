@@ -11,7 +11,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const environment = require(`../environment/${process.env.env}.env`)
 
-var env = Obeject.assign(config.build.env, environment)
+// var env = Obeject.assign(config.build.env, environment)
 
 
 var webpackConfig = merge(baseWebpackConfig, {
@@ -32,7 +32,7 @@ var webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env
+      'process.env': config.build.env
     }),
     new UglifyJsPlugin({
       sourceMap: true

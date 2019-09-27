@@ -64,25 +64,3 @@ export function Debounce(time: number = 500) {
     return descriptor;
   }
 }
-
-/**
- * 设置布局
- * @param target
- */
-export function Layout(layout: String) {
-  return function (target) {
-    target.$layout = layout;
-    return target;
-  }
-}
-
-/**
- * 权限码中间件
- * @param target
- */
-export function Auth(code: Number) {
-  return function (target) {
-    target.$auth = code;
-    return target;
-  }
-}

@@ -41,10 +41,18 @@ export default class Page1 extends Vue {
     if (e.mp.detail.rawData){
       console.log('用户点击允许授权按钮')
       this.updateUserInfo(e.mp.detail.userInfo)
-      this.vehicleRoughService.getAllCarBrand()
-        .subscribe(data => {
-          console.log(data)
-        })
+      if(wx.getStorageSync('openid')) return
+      wx.login({
+        success:(res) => {
+          if(res.code) {
+            this.vehicleRoughService.getOpenid(res.code)
+              .subscribe(data => {
+                //TODO 通过code去后台获取openid
+                console.log(data,111)
+              })
+          }
+        }
+      })
     } else {
       console.log('用户按了拒绝按钮')
       wx.showToast({ title: "为了您更好的体验,请先同意授权", icon: 'none', duration: 2000 })
@@ -65,11 +73,13 @@ export default class Page1 extends Vue {
                     this.updateUserInfo(res.userInfo)
                   }
                 })
-                this.vehicleRoughService.getAllCarBrand()
+                if(wx.getStorageSync('openid')) return
+                this.vehicleRoughService.getOpenid(res.code)
                   .subscribe(data => {
-                    console.log(data)
+                    //TODO 通过code去后台获取openid
+                    // wx.setStorageSync('openid', this.data.storage) 将openid存localstorage
+                    console.log(data,222)
                   })
-                // 通过code去后台获取openid
               }
             }
           })
