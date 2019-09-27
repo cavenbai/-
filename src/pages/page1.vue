@@ -7,9 +7,9 @@
       <div style="font-size: 30px;margin-top: 20px">杂物原</div>
       <div style="font-size: 30px;margin-top: 20px">作业助理</div>
     </div>
-    <div style="width: 100%;" v-else>
+    <div style="width: 50%;" v-else>
       <i-button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="getUserInfo1" type="success" shape="circle" size="large">
-        微信登陆
+        微信授权登陆
       </i-button>
     </div>
   </div>
