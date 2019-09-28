@@ -6,15 +6,14 @@
         <div style="display: flex">
           <span slot="icon">
           <div style="width:120px;height:40px;margin-right: 10px">
-            <img :src="item.image" style="max-width: 100%;max-height: 100%"/>
+            <img :src="item.worktypelogo" style="max-width: 100%;max-height: 100%"/>
           </div>
         </span>
           <div slot="footer" style="text-align: left">
-            <div>{{item.title}}</div>
-            <div style="font-size: 10px;margin-top: 5px;">{{item.time}}</div>
+            <div>{{item.workname}}</div>
+            <div style="font-size: 10px;margin-top: 5px;">{{item.create_time}} {{item.finished === 1 ? '已完成':''}}</div>
           </div>
         </div>
-
       </i-cell>
     </i-cell-group>
   </div>
@@ -22,28 +21,32 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { Dependencies } from "@/core/decorator";
+import { VehicleRoughService } from "@/services/manage-service/vehicle-rough.service";
+import ServerPath  from '../../environment/dev.env'
+import dateFormat from '@/utils/index'
 
 @Component
 export default class Page2 extends Vue {
-  private workerList:Array<any> = [
-    {image:require('../../static/images/1.png'), title:'Year 1 CAD Assignment 1',time:'9/10/2019 已完成'},
-    // {image:require('../../static/images/2.png'), title:'Year 1 Sketchup Assignment 1',time:'9/10/2019 已完成'},
-    // {image:require('../../static/images/3.png'), title:'Year 1 CAD Assignment 1'},
-    // {image:require('../../static/images/4.png'), title:'Year 1 Sketchup Assignment 1'},
-    // {image:require('../../static/images/5.png'), title:'Year 1 CAD Assignment 1'},
-    // {image:require('../../static/images/6.png'), title:'Year 1 Sketchup Assignment 1'},
-    // {image:require('../../static/images/7.png'), title:'Year 1 CAD Assignment 1'},
-    // {image:require('../../static/images/8.png'), title:'Year 1 Sketchup Assignment 1'},
-    // {image:require('../../static/images/9.png'), title:'Year 1 CAD Assignment 1'},
-    // {image:require('../../static/images/10.png'), title:'Year 1 Sketchup Assignment 1'},
-    // {image:require('../../static/images/11.png'), title:'Year 1 CAD Assignment 1'},
-    // {image:require('../../static/images/12.png'), title:'Year 1 Sketchup Assignment 1'},
-    // {image:require('../../static/images/13.png'), title:'Year 1 CAD Assignment 1'},
-    // {image:require('../../static/images/14.png'), title:'Year 1 Sketchup Assignment 1'},
-  ]
+  @Dependencies(VehicleRoughService) private vehicleRoughService: VehicleRoughService;
+  private workerList:Array<any> = []
+  private getId:string = wx.getStorageSync('openid')  //获取本地存储openid
+
+  mounted(){
+    if(this.getId) {
+      this.vehicleRoughService.getWorkList(this.getId)
+        .subscribe(data => {
+          this.workerList = data.map(item =>{
+             item.worktypelogo = `${JSON.parse(ServerPath.URL_SERVER)}${item.worktypelogo}`
+             item.create_time = dateFormat(item.create_time)
+            return item
+          })
+        })
+    }
+  }
 
   workerDetail(item){
-    this.$router.push({ path: '/pages/page3', query: { icon: item.icon,title:item.title } })
+    this.$router.push({ path: '/pages/page3', query: {title:item.workname, reference:item.reference }})
   }
 
 }

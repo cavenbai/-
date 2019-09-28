@@ -51,8 +51,8 @@ export class NetService{
         header : headers,
         data : getType.includes(method)? getData : postData,
         success (res) {
-          let { object } = res.data
-          observer.next(object)
+          console.log(res)
+          observer.next(res.data)
         },
         fail(ex){
           observer.error({

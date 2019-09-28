@@ -47,8 +47,9 @@ export default class Page1 extends Vue {
           if(res.code) {
             this.vehicleRoughService.getOpenid(res.code)
               .subscribe(data => {
-                //TODO 通过code去后台获取openid
-                console.log(data,111)
+                if(data.data.id){
+                  wx.setStorageSync('openid', data.data.id)
+                }
               })
           }
         }
@@ -76,9 +77,9 @@ export default class Page1 extends Vue {
                 if(wx.getStorageSync('openid')) return
                 this.vehicleRoughService.getOpenid(res.code)
                   .subscribe(data => {
-                    //TODO 通过code去后台获取openid
-                    // wx.setStorageSync('openid', this.data.storage) 将openid存localstorage
-                    console.log(data,222)
+                    if(data.data.id) {
+                      wx.setStorageSync('openid', data.data.id)
+                    }
                   })
               }
             }

@@ -12,11 +12,33 @@ export class VehicleRoughService {
    */
   getOpenid(code) {
     return this.netService.send({
-      url: '/adduser',
+      url: '/newuser',
       type: requestType.Post,
       data: {
         code
       }
+    })
+  }
+  /**
+   * 小程序获取作业列表
+   * @param id
+   */
+  getWorkList(id:string) {
+    return this.netService.send({
+      url: `/works/${id}`,
+      type: requestType.Get,
+      data: {}
+    })
+  }
+  /**
+   * 小程序获取作业详情
+   * @param id
+   */
+  getWorkDetail(reference:string) {
+    return this.netService.send({
+      url: `/workref/${reference}`,
+      type: requestType.Get,
+      data: {}
     })
   }
 }
