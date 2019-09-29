@@ -55,8 +55,8 @@ export default class Page1 extends Vue {
         }
       })
     } else {
-      console.log('用户按了拒绝按钮')
-      wx.showToast({ title: "为了您更好的体验,请先同意授权", icon: 'none', duration: 2000 })
+      console.log('用户点击拒绝按钮')
+      wx.showToast({ title: "为了您更好的体验,请先同意授权...", icon: 'none', duration: 2000 })
     }
   }
 
@@ -70,7 +70,6 @@ export default class Page1 extends Vue {
                 //获取用户公开基本信息
                 wx.getUserInfo({
                   success: (res) => {
-                    console.log(res,'用户已经授权过')
                     this.updateUserInfo(res.userInfo)
                   }
                 })
@@ -84,23 +83,20 @@ export default class Page1 extends Vue {
               }
             }
           })
-
-        } else {
-          console.log('用户还未授权过')
         }
       }
     })
   }
 
-  getUserInfo1(){
+  getUserInfo1():void{
     if(wx.canIUse('button.open-type.getUserInfo')){
-      // 用户版本可用
+      console.log('用户版本可用')
     }else{
       console.log('请升级微信版本')
     }
   }
 
-  clickTittle(){
+  clickTittle():void{
     this.$router.push('/pages/page2');
   }
 

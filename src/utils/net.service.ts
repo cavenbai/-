@@ -51,13 +51,13 @@ export class NetService{
         header : headers,
         data : getType.includes(method)? getData : postData,
         success (res) {
-          console.log(res)
           observer.next(res.data)
         },
         fail(ex){
-          observer.error({
-            msg: ex.data.msg
-          })
+          //暂定统一错误提示
+          wx.showToast({ title: "服务端异常，请稍后重试...", icon: 'none', duration: 2000 })
+          //TODO 通过服务端返回各种状态码，来告知用户错误信息 （以后加）
+          observer.error({ msg: ex }) //将错误信息传递到调用方法，可在调用时自定义错误弹出方式
         }
       })
     })
