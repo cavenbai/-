@@ -2,20 +2,6 @@ import { Observable } from "rxjs";
 import ServerPath  from '../../environment/dev.env'
 const getType = ['GET', 'DELETE'] // 使用GET请求类型
 export class NetService{
-  // public static generateRequestUrl({ service, controller, action, url }: { service: string, controller: string, action: string, url?: string }, append = [], sort?):string {
-  //   // 自定义url优先级最高
-  //   if (url) return url
-  //   if (controller) {
-  //     let targetUrl = [service, controller, action, ...append].filter(x => x).join('/')
-  //     if (sort) {
-  //       targetUrl += '?'
-  //       targetUrl += Object.entries(sort.sort).map(([k, v]) => `sort=${k},${v}`).join('&')
-  //     }
-  //     return targetUrl
-  //   } else {
-  //     throw new Error('server配置异常')
-  //   }
-  // }
   /**
    * 生成头部信息
    */
