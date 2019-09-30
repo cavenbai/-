@@ -10,13 +10,11 @@ export class VehicleRoughService {
    * 小程序登录获取openid接口
    * @param code
    */
-  getOpenid(code) {
+  getOpenid(param) {
     return this.netService.send({
       url: '/newuser',
       type: requestType.Post,
-      data: {
-        code
-      }
+      data:param
     })
   }
   /**

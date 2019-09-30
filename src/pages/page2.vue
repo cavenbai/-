@@ -30,9 +30,10 @@ import dateFormat from '@/utils/index'
 export default class Page2 extends Vue {
   @Dependencies(VehicleRoughService) private vehicleRoughService: VehicleRoughService;
   private workerList:Array<any> = []
-  private getId:string = wx.getStorageSync('openid')  //获取本地存储openid
+  private getId:string = ''
 
   mounted(){
+    this.getId = wx.getStorageSync('openid') //获取本地存储openid
     if(this.getId) {
       this.vehicleRoughService.getWorkList(this.getId)
         .subscribe(data => {

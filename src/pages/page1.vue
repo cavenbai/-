@@ -41,11 +41,18 @@ export default class Page1 extends Vue {
     if (e.mp.detail.rawData){
       console.log('用户点击允许授权按钮')
       this.updateUserInfo(e.mp.detail.userInfo)
-      if(wx.getStorageSync('openid')) return
       wx.login({
         success:(res) => {
           if(res.code) {
-            this.vehicleRoughService.getOpenid(res.code)
+            let param = {
+              code:res.code,
+              nickname:e.mp.detail.userInfo.nickName,
+              avatarurl:e.mp.detail.userInfo.avatarUrl,
+              gender:e.mp.detail.userInfo.gender,
+              country:e.mp.detail.userInfo.country,
+              city:e.mp.detail.userInfo.city,
+            }
+            this.vehicleRoughService.getOpenid(param)
               .subscribe(data => {
                 if(data.data.id){
                   wx.setStorageSync('openid', data.data.id)
@@ -65,21 +72,28 @@ export default class Page1 extends Vue {
       success: (res) => {
         if (res.authSetting['scope.userInfo']) {
           wx.login({
-            success:(res) => {
-              if(res.code) {
+            success:(resCode) => {
+              if(resCode.code) {
                 //获取用户公开基本信息
                 wx.getUserInfo({
                   success: (res) => {
                     this.updateUserInfo(res.userInfo)
+                    let param = {
+                      code:resCode.code,
+                      nickname:res.userInfo.nickName,
+                      avatarurl:res.userInfo.avatarUrl,
+                      gender:res.userInfo.gender,
+                      country:res.userInfo.country,
+                      city:res.userInfo.city,
+                    }
+                    this.vehicleRoughService.getOpenid(param)
+                      .subscribe(data => {
+                        if(data.data.id) {
+                          wx.setStorageSync('openid', data.data.id)
+                        }
+                      })
                   }
                 })
-                if(wx.getStorageSync('openid')) return
-                this.vehicleRoughService.getOpenid(res.code)
-                  .subscribe(data => {
-                    if(data.data.id) {
-                      wx.setStorageSync('openid', data.data.id)
-                    }
-                  })
               }
             }
           })
