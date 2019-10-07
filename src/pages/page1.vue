@@ -1,16 +1,22 @@
 <template>
   <div class="page1 form-container">
-    <div v-if="userInfo.avatarUrl" style="text-align: center" @click="clickTittle">
+    <div style="text-align: center" @click="clickTittle">
       <span style="width:50px;height: 50px;border-radius: 50%; display:inline-block">
-        <img :src="userInfo.avatarUrl" style="width: 100%;height: 100%;border-radius:50%"/>
+        <img v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" style="width: 100%;height: 100%;border-radius:50%"/>
+        <img v-else  :src="defaultImage" style="width: 100%;height: 100%;border-radius:50%"/>
       </span>
       <div style="font-size: 30px;margin-top: 20px">杂物原</div>
       <div style="font-size: 30px;margin-top: 20px">作业助理</div>
     </div>
-    <div style="width: 50%;" v-else>
-      <i-button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="getUserInfo1" type="success" shape="circle" size="large">
-        微信授权登陆
-      </i-button>
+    <div v-if="!userInfo.avatarUrl" style="position: fixed;bottom: 0;left:0;height: 40px;width: 100%;background-color: red">
+      <div style="display: flex">
+        <div style="width:40px;height: 40px;border-radius: 50%; display:inline-block;margin-left: 10px">
+          <img :src="headerImage" style="width: 100%;height: 100%;"/>
+        </div>
+        <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo"  style="position: static;display: inline;background: red;font-size: 14px;line-height: 40px;margin-left: 0px">
+          登陆/注册
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +31,8 @@ export default class Page1 extends Vue {
   @Dependencies(VehicleRoughService) private vehicleRoughService: VehicleRoughService;
   @State private userInfo;
   @Mutation private updateUserInfo;
+  private defaultImage = require('../../static/images/b.png')
+  private headerImage = require('../../static/images/a.png')
 
   // router.push('/pages/news/detail') // 字符串
   // router.push({ path: '/pages/news/detail' })// 对象
@@ -39,7 +47,6 @@ export default class Page1 extends Vue {
 
   bindGetUserInfo(e) {
     if (e.mp.detail.rawData){
-      console.log('用户点击允许授权按钮')
       this.updateUserInfo(e.mp.detail.userInfo)
       wx.login({
         success:(res) => {
@@ -62,46 +69,47 @@ export default class Page1 extends Vue {
         }
       })
     } else {
-      console.log('用户点击拒绝按钮')
-      wx.showToast({ title: "为了您更好的体验,请先同意授权...", icon: 'none', duration: 2000 })
+      //点击拒绝处理
+      // wx.showToast({ title: "为了您更好的体验,请先同意授权...", icon: 'none', duration: 2000 })
     }
   }
 
   private getSetting() {
-    wx.getSetting({
-      success: (res) => {
-        if (res.authSetting['scope.userInfo']) {
-          wx.login({
-            success:(resCode) => {
-              if(resCode.code) {
-                //获取用户公开基本信息
-                wx.getUserInfo({
-                  success: (res) => {
-                    this.updateUserInfo(res.userInfo)
-                    let param = {
-                      code:resCode.code,
-                      nickname:res.userInfo.nickName,
-                      avatarurl:res.userInfo.avatarUrl,
-                      gender:res.userInfo.gender,
-                      country:res.userInfo.country,
-                      city:res.userInfo.city,
-                    }
-                    this.vehicleRoughService.getOpenid(param)
-                      .subscribe(data => {
-                        if(data.data.id) {
-                          wx.setStorageSync('openid', data.data.id)
-                        }
-                      })
-                  }
-                })
-              }
-            }
-          })
-        }
-      }
-    })
+    // wx.getSetting({
+    //   success: (res) => {
+    //     if (res.authSetting['scope.userInfo']) {
+    //       wx.login({
+    //         success:(resCode) => {
+    //           if(resCode.code) {
+    //             //获取用户公开基本信息
+    //             wx.getUserInfo({
+    //               success: (res) => {
+    //                 this.updateUserInfo(res.userInfo)
+    //                 let param = {
+    //                   code:resCode.code,
+    //                   nickname:res.userInfo.nickName,
+    //                   avatarurl:res.userInfo.avatarUrl,
+    //                   gender:res.userInfo.gender,
+    //                   country:res.userInfo.country,
+    //                   city:res.userInfo.city,
+    //                 }
+    //                 this.vehicleRoughService.getOpenid(param)
+    //                   .subscribe(data => {
+    //                     if(data.data.id) {
+    //                       wx.setStorageSync('openid', data.data.id)
+    //                     }
+    //                   })
+    //               }
+    //             })
+    //           }
+    //         }
+    //       })
+    //     }
+    //   }
+    // })
   }
 
+  //检测版本是否可用 暂时注释
   getUserInfo1():void{
     if(wx.canIUse('button.open-type.getUserInfo')){
       console.log('用户版本可用')
@@ -111,7 +119,11 @@ export default class Page1 extends Vue {
   }
 
   clickTittle():void{
-    this.$router.push('/pages/page2');
+    if(this.userInfo.avatarUrl){
+      this.$router.push('/pages/page2');
+    }else{
+      this.$router.push('/pages/page4');
+    }
   }
 
 }

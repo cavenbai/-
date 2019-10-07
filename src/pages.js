@@ -25,6 +25,12 @@ module.exports = mergeConfig([
         'i-step'
       ])
     }
+  },
+  {
+    path: 'pages/page4.vue',
+    config: {
+      navigationBarTitleText: '我的作业'
+    }
   }
 ],
   // 全局组件
