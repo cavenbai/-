@@ -39,4 +39,15 @@ export class VehicleRoughService {
       data: {}
     })
   }
+  /**
+   * 小程序获取假数据
+   * @param
+   */
+  getWork() {
+    return this.netService.send({
+      url: `/tests/fakeid`,
+      type: requestType.Get,
+      data: {}
+    })
+  }
 }

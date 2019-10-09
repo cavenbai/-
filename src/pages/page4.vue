@@ -33,7 +33,7 @@
   import { Component, Vue } from "vue-property-decorator";
   import { Dependencies } from "@/core/decorator";
   import { VehicleRoughService } from "@/services/manage-service/vehicle-rough.service";
-  import { State, Mutation } from "vuex-class";
+  import { Mutation } from "vuex-class";
   import ServerPath  from '../../environment/dev.env'
   import dateFormat from '@/utils/index'
 
@@ -46,18 +46,14 @@
     private headerImage = require('../../static/images/a.png')
 
     mounted(){
-      this.workerList = [
-        {worktypelogo:'',workname:'是个好地方尽快赶回多发几个',create_time:'2019/03/34',finished:1},
-        {worktypelogo:'',workname:'fghfdkgjhkdfhjh',create_time:'2019/03/34',finished:1},
-        ]
-      // this.vehicleRoughService.getWorkList(this.getId)
-      //   .subscribe(data => {
-      //     this.workerList = data.map(item =>{
-      //       item.worktypelogo = `${JSON.parse(ServerPath.URL_SERVER)}${item.worktypelogo}`
-      //       item.create_time = dateFormat(item.create_time)
-      //       return item
-      //     })
-      //   })
+      this.vehicleRoughService.getWork()
+        .subscribe(data => {
+          this.workerList = data.map(item =>{
+            item.worktypelogo = `${JSON.parse(ServerPath.URL_SERVER)}${item.worktypelogo}`
+            item.create_time = dateFormat(item.create_time)
+            return item
+          })
+        })
     }
 
     bindGetUserInfo(e) {
