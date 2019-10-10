@@ -42,10 +42,12 @@ export default class Page3 extends Vue {
     if(this.reference) {
       this.vehicleRoughService.getWorkDetail(this.reference)
         .subscribe(data => {
-          this.detail = data.map(item =>{
-            item.timestamp = dateFormat(item.timestamp)
-            return item
-          })
+          if(data) {
+            this.detail = data.map(item =>{
+              item.timestamp = dateFormat(item.timestamp)
+              return item
+            })
+          }
         })
     }
   }
