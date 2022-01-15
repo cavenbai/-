@@ -61,7 +61,7 @@
     "relative": "^3.0.2",
     "rimraf": "^2.6.0",
     "semver": "^5.3.0",
-    "shelljs": "^0.8.1",
+    "shelljs": "^0.8.5",
     "tencent-wx-app": "^1.1.201712221707",
     "ts-loader": "3",
     "typescript": "^3.0.3",
